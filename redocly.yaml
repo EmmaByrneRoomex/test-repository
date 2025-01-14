@@ -1,0 +1,18 @@
+apis:
+  main:
+    root: ./openapi.yaml
+extends:
+  - minimal
+ignore:
+  - .github
+features.openapi:
+  generateCodeSamples: 
+    languages:
+      - lang: curl
+      - lang: C#
+      - lang: "Node.js"
+      - lang: Python
+      - lang: "JavaScript"
+      - lang: Java
+      - lang: PHP
+      - lang: Go
