@@ -1,420 +1,50 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
-  version: 1.0.0
-  title: Check In Service API
-  description: Pass Check In and Check Out Information to CLC
-servers:
-  - description: Mock Server
-    url: https://c3a1ba49-c2e4-4e2f-829e-1195823e9d09.mock.pstmn.io
+  title: Test
+  version: '1.0'
 paths:
-  /api/v1/card/authorize:
-    post:
-      summary: Authorize CardA
-      description: Endpoint to Authorize Membership Id
-      tags:
-        - authorization
-      requestBody:
-        description: Card authorization request with card number
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CardAuthRequest'
-            example:
-              membershipId: '123456789'
-      responses:
-        '200':
-          description: Request has been added the the queue
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CardAuthSuccessResponse'
-              example:
-                authId: 177317191
-                authStatus: 'authorized'
-                employeeIdentifier: '123456789'
-                incidentalsCovered: Single room only
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-              example:
-                message: Invalid card number format
-        '404':
-          description: Not Found (404)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-              example:
-                message: The provided Membership Id was not found
-        '500':
-          description: Unexpected Error (500)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
-              example:
-                message: An unexpected error occurred
-
-  /api/v1/reservation/checkin:
-    post:
-      summary: Check In
-      description: Pass all relevant check in infomation to check in a guest
-      tags:
-        - reservation
-      requestBody:
-        description: Check In
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CheckInRequest'
-            example:
-              authId: 177317191
-              authStatus: 'checked_in'
-              employeeIdentifier: '1234345'
-              supplierReservationId: '1234'
-              checkInDateTime: '2024-10-17T14:30:00-05:00'
-              roomNumber: '204'
-              folioNumber: '204'
-              guestFirstName: Ada
-              guestLastName: Lovelace
-      responses:
-        '200':
-          description: Request Processed Successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessfulResponse'
-              example:
-                status: checked_in
-        '202':
-          description: Request has been added the the queue
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessfulResponse'
-              example:
-                requestId: '42d3913c-4794-4cfd-813c-f7ea9e4240bb'
-                status: check_in_in_progress
-        '400':
-          description: Bad Request (400)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-              example:
-                message: Invalid request. Please check your request data
-        '500':
-          description: Unexpected Error (500)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
-              example:
-                message: An unexpected error occurred
-  
-  /api/v1/reservation/checkout:
-    post:
-      summary: Check Out
-      description: Pass all relevant check out infomation to check out a guest
-      tags:
-        - reservation
-      requestBody:
-        description: Check Out Request
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CheckOutRequest'
-            example:
-              authId: 177317191
-              authStatus: 'checked_out'
-              employeeIdentifier: '1234345'
-              supplierReservationId: '1234'
-              checkOutDateTime: '2025-10-17T14:30:00-05:00'
-              roomNumber: '204'
-              folioNumber: '204'
-              guestFullName: Ada Lovelace
-              checkInDateTime: '2024-10-17T14:30:00-05:00'
-      responses:
-        '200':
-          description: Request Processed Successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessfulResponse'
-              example:
-                status: checked_out
-        '202':
-          description: Request has been added the the queue
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessfulResponse'
-              example:
-                requestId: '42d3913c-4794-4cfd-813c-f7ea9e4240bb'
-                status: check_out_in_progress
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-              example:
-                message: Invalid request. Please check your request data
-        '404':
-          description: Not Found (404)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-              example:
-                message: The resource with the provided Request Id was not found
-        '500':
-          description: Unexpected Error (500)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
-              example:
-                message: An unexpected error occurred
-  
-  /api/v1/reservation/status/{requestId}:
+  /:
     get:
-      summary: Get Status of Reservation
-      description: Endpoint to Get the Status of a Reservation
       tags:
-        - reservation
-      parameters:
-        - name: requestId
-          in: path
-          required: true
-          schema:
-            type: string
-            example: bb8350fc-dce1-41a1-91b1-91b0d64b5eeb
+        - Test
+      operationId: Root
       responses:
         '200':
-          description: Request Processed Successfully
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessfulResponse'
-              example:
-                authId: 177317191
-                authStatus: 'checked_in'
-                employeeIdentifier: '123456789'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-              example:
-                message: Invalid requestId format. The requestId should be a valid UUID
-        '404':
-          description: Not Found (404)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
-              example:
-                message: The resource with the provided Request Id was not found
+                $ref: '#/components/schemas/Response'
         '500':
-          description: Unexpected Error (500)
+          description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
-              example:
-                message: An unexpected error occurred
-
+                $ref: '#/components/schemas/Response'
+  /hello:
+    get:
+      tags:
+        - Test
+      operationId: Hello
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
 components:
   schemas:
-    CheckInRequest:
+    Response:
       type: object
-      required:
-        - authId
-        - employeeIdentifier
-        - supplierReservationId
-        - checkInDateTime
-        - roomNumber
-        - folioNumber
-        - guestFirstName
-        - guestLastName
-      properties:
-        authId:
-          type: string
-        authStatus:
-          $ref: '#/components/schemas/AuthStatusEnum'
-        employeeIdentifier:
-          type: string
-        supplierReservationId:
-          type: string
-        checkInDateTime:
-          $ref: '#/components/schemas/DateTimeOffset'
-        roomNumber:
-          type: string
-        folioNumber:
-          type: string
-        guestFirstName:
-          type: string
-        guestLastName:
-          type: string
-        roomType:
-          type: string
-        expectedCheckOutDateTime:
-          type: string
-        reservationInformation:
-          type: object
-    
-    CheckOutRequest:
-      type: object
-      required:
-        - authId
-        - checkOutDateTime
-        - employeeIdentifier
-        - supplierReservationId
-        - roomNumber
-        - folioNumber
-        - guestFirstName
-        - guestLastName
-        - checkInDateTime
-      properties:
-        authId:
-          type: string
-        authStatus:
-          $ref: '#/components/schemas/AuthStatusEnum'
-        employeeIdentifier:
-          type: string
-        supplierReservationId:
-          type: string
-        checkInDateTime:
-          $ref: '#/components/schemas/DateTimeOffset'
-        roomNumber:
-          type: string
-        folioNumber:
-          type: string
-        guestFirst:
-          type: string
-        guestLastName:
-          type: string
-        totalNumberOfNights:
-          type: integer
-    
-    CardAuthRequest:
-      type: object
-      required:
-        - membershipId
-      properties:
-        membershipId:
-          type: string
-          description: The card number to be authorized
-          example: '1234567812345678'
-
-    AuthStatusEnum:
-      type: string
-      enum:
-        - authorized
-        - declined
-        - checked_in
-        - checked_out
-        - cancelled
-    
-    DateTimeOffset:
-      type: string
-      format: date-time
-      description: Date and time with timezone offset, e.g., 2024-10-17T14:30:00-05:00
-      example: "2024-10-17T14:30:00-05:00"
-      pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\+|\\-)\\d{2}:\\d{2}$"
-    
-    SuccessfulResponse:
-      type: object
-      properties:
-        status:
-          type: string
-    
-    BadRequestError:
-      type: object
-      required:
-        - message
       properties:
         message:
           type: string
-    
-    NotFoundError:
-      type: object
-      required:
-        - authId
-        - message
-      properties:
-        authId:
-          type: string
-        message:
-          type: string
-          example: Item with the provided Reservation Id was not found
-    
-    InternalServerError:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          description: Internal Server Error
-          type: string
-    
-    CardAuthSuccessResponse:
-      type: object
-      properties:
-        authId: 
-          type: string
-        authStatus:
-          $ref: '#/components/schemas/AuthStatusEnum'  
-        employeeIdentifier:
-          type: string
-        incidentalsCovered:
-          type: string
-  
-  responses:
-    Successful:
-      description: Successful Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SuccessfulResponse'
-    BadRequest:
-      description: Invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/BadRequestError'
-    InternalServerError:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/InternalServerError'
-    NotFound:
-      description: Reservation Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NotFoundError'
-    CardAuthSuccess:
-      description: Card authenticated successfully
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CardAuthSuccessResponse'
-  
-  securitySchemes:
-    ApiKey:
-      type: apiKey
-      in: header
-      name: X-Api-Key
-
-security:
-  - ApiKey: []
+          nullable: true
+      additionalProperties: false
