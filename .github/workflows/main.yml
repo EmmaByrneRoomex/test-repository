@@ -34,9 +34,6 @@ jobs:
 
     - name: Generate OpenAPI Spec
       run: dotnet swagger tofile --output openapi.json ./publish/Test.dll v1
-    
-    # - name: Generate OpenAPI spec
-    #   run: swagger tofile --output openapi.json ./publish/Test.dll v1
 
     # - name: Setup Node.js
     #   uses: actions/setup-node@v3
@@ -79,7 +76,7 @@ jobs:
           organization: 'test-p4cb6'
           project: 'testpr'
           mountPath: '/remote-repo-cicd'
-          files: './publish/Test.json'
+          files: 'openapi.json'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
