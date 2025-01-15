@@ -5,7 +5,7 @@ extends:
   - minimal
 ignore:
   - .github
-features.openapi:
+theme.openapi:
   generateCodeSamples: 
     languages:
       - lang: curl
