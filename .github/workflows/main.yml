@@ -35,6 +35,9 @@ jobs:
     - name: Generate OpenAPI Spec
       run: dotnet swagger tofile --output openapi.json ./publish/Test.dll v1
 
+    - name: Generate OpenApi Spec with Yaml
+      run: dotnet swagger tofile --yaml --output openapi.yaml ./publish.Test.dll v1
+
     # - name: Setup Node.js
     #   uses: actions/setup-node@v3
     #   with:
@@ -60,6 +63,12 @@ jobs:
         name: openapi-spec
         path: openapi.json
 
+    - name: Upload OpenAPI Spec As Yaml
+      uses: actions/upload-artifact@v3
+      with:
+        name: openapi-spec
+        path: openapi.yaml
+
   push-to-redocly:
     runs-on: ubuntu-latest
     permissions:
@@ -76,7 +85,7 @@ jobs:
           organization: 'test-p4cb6'
           project: 'testpr'
           mountPath: '/remote-repo-cicd'
-          files: 'openapi.json'
+          files: 'openapi.json openapi.yaml'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
