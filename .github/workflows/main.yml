@@ -63,3 +63,22 @@ jobs:
       with:
         name: openapi-spec
         path: openapi.json
+
+  push-to-redocly:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: 'Push files and wait for deployment'
+        uses: redocly/reunite-push-action@v1
+        with:
+          organization: 'test-p4cb6'
+          project: 'testpr'
+          mountPath: '/remote-repo-cicd'
+          files: './publish/Test.json'
+          domain: 'https://app.cloud.redocly.com'
+        env:
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
