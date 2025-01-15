@@ -60,12 +60,13 @@ jobs:
         name: build-output
         path: ./publish
 
-      # Step 7: Upload the OpenAPI spec as an artifact
     - name: Upload OpenAPI Spec
       uses: actions/upload-artifact@v3
       with:
         name: openapi-spec
-        path: openapi.json
+        path: |
+          openapi.json
+          redocly.yaml
 
   push-to-redocly:
     runs-on: ubuntu-latest
