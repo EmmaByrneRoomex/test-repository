@@ -15,7 +15,6 @@ if (app.Environment.IsDevelopment())
 
 //app.MapOpenApi();
 
-
 app.MapGet("/", () => new Response { Message = "Test App" })
     .WithName("Root")
     .Produces<Response>(200)
@@ -26,10 +25,13 @@ app.MapGet("/hello", () => new Response { Message = "Hello, World!" })
     .Produces<Response>(200)
     .Produces(500);
 
+app.MapGet("/hello-redocly", () => new RedoclyResponse("Hello, Redocly!", "V2"))
+    .WithName("HelloRedocly")
+    .Produces<Response>(200)
+    .Produces(500);
+
 app.Run();
 
 
-public record Response
-{
-    public string? Message { get; set; }
-}
+public record Response(string Message);
+public record RedoclyResponse(string Message, string Version);
