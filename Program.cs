@@ -1,3 +1,4 @@
+// Program.cs
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,18 +27,22 @@ if (app.Environment.IsDevelopment())
 
 //app.MapOpenApi();
 
+
 app.MapGet("/", () => new Response("Test App"))
     .WithName("Root")
+    .WithTags("Root")
     .Produces<Response>(200)
     .Produces(500);
 
 app.MapGet("/hello", () => new Response("Hello, World!"))
     .WithName("Hello")
+    .WithTags("Hello")
     .Produces<Response>(200)
     .Produces(500);
 
 app.MapGet("/hello-redocly", () => new RedoclyResponse("Hello, Redocly!", "V2"))
     .WithName("HelloRedocly")
+    .WithTags("HelloRedocly")
     .Produces<Response>(200)
     .Produces(500);
 
