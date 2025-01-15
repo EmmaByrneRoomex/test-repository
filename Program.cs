@@ -15,12 +15,12 @@ if (app.Environment.IsDevelopment())
 
 //app.MapOpenApi();
 
-app.MapGet("/", () => new Response { Message = "Test App" })
+app.MapGet("/", () => new Response("Test App"))
     .WithName("Root")
     .Produces<Response>(200)
     .Produces(500);
 
-app.MapGet("/hello", () => new Response { Message = "Hello, World!" })
+app.MapGet("/hello", () => new Response("Hello, World!"))
     .WithName("Hello")
     .Produces<Response>(200)
     .Produces(500);
