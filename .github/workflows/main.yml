@@ -90,7 +90,7 @@ jobs:
           organization: 'test-p4cb6'
           project: 'testpr'
           mountPath: '/remote-repo-cicd'
-          files: './downloaded-artifacts/openapi.json'
+          files: './downloaded-artifacts/openapi.json ./downloaded-artifacts/redocly.yaml'
           domain: 'https://app.cloud.redocly.com'
         env:
           REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
