@@ -40,11 +40,11 @@ app.MapGet("/hello", () => new Response("Hello, World!"))
     .Produces<Response>(200)
     .Produces(500);
 
-app.MapGet("/hello-redocly", () => new RedoclyResponse("Hello, Redocly!", "V2"))
-    .WithName("HelloRedocly")
-    .WithTags("HelloRedocly")
-    .Produces<Response>(200)
-    .Produces(500);
+// app.MapGet("/hello-redocly", () => new RedoclyResponse("Hello, Redocly!", "V2"))
+//     .WithName("HelloRedocly")
+//     .WithTags("HelloRedocly")
+//     .Produces<Response>(200)
+//     .Produces(500);
 
 app.Run();
 
