@@ -43,7 +43,7 @@ app.MapGet("/hello", () => new Response("Hello, World!"))
 // app.MapGet("/hello-redocly", () => new RedoclyResponse("Hello, Redocly!", "V2"))
 //     .WithName("HelloRedocly")
 //     .WithTags("HelloRedocly")
-//     .Produces<Response>(200)
+//     .Produces<RedoclyResponse>(200)
 //     .Produces(500);
 
 app.Run();
