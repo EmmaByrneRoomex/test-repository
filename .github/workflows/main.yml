@@ -30,30 +30,12 @@ jobs:
     - name: Publish application
       run: dotnet publish --configuration Release --output ./publish
 
-    # - name: Install Swashbuckle CLI
-    #   run: dotnet tool install Swashbuckle.AspNetCore.Cli
-
     - name: Install Swashbuckle CLI
       run: dotnet new tool-manifest && dotnet tool install Swashbuckle.AspNetCore.Cli
 
     - name: Generate OpenAPI Spec
       run: dotnet swagger tofile --output openapi.json ./publish/Test.dll v1
-    
-    # - name: Generate OpenAPI spec
-    #   run: swagger tofile --output openapi.json ./publish/Test.dll v1
-
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: 18
-
-    # - name: Install Redocly CLI
-    #   run: npm install @redocly/cli -g
-
-    # - name: Push OpenAPI to Redocly
-    #   run: redocly push my-api
-
-     # Step 6: Upload the build output as an artifact
+  
     - name: Upload Build Output
       uses: actions/upload-artifact@v3
       with:
